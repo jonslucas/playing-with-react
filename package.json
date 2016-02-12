@@ -4,6 +4,12 @@
   "description": "Building out basic RRW based app",
   "main": "server.js",
   "scripts": {
+    "prebuild:js": "jshint **.js",
+    "prebuild:css": "node-sass client/css/main.scss client/css/main.css",
+    "build:css": "cssmin ./client/css/main.css > ./dist/main.min.css",
+    "build:js": "webpack --config webpack.config.js",
+    "serve": "npm run build:js  && npm run build:css && node server.js",
+    "start": "nodemon \"npm run serve\"",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Jon Lucas",
@@ -22,6 +28,7 @@
     "cssmin": "^0.4.3",
     "jshint": "^2.9.1",
     "node-sass": "^3.4.2",
+    "nodemon": "^1.8.1",
     "webpack": "^1.12.13"
   }
 }
