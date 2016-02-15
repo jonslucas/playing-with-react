@@ -4,12 +4,15 @@
   "description": "Building out basic RRW based app",
   "main": "server.js",
   "scripts": {
+    "clean": "rimraf dist",
+    "build:css": "node-sass client/css/main.scss | cssmin > ./dist/main.min.css",
+    "watch:css": "watch 'npm run build:css' client/css/",
     "prebuild:js": "jshint **.js",
-    "prebuild:css": "node-sass client/css/main.scss client/css/main.css",
-    "build:css": "cssmin ./client/css/main.css > ./dist/main.min.css",
-    "build:js": "webpack --config webpack.config.js",
-    "serve": "npm run build:js  && npm run build:css && node server.js",
-    "start": "nodemon \"npm run serve\"",
+    "build:js": "webpack",
+    "watch:js": "watch 'npm run build:js' client/js/ components/",
+    "build": "npm run clean && npm run build:js && npm run build:css",
+    "watch": "parallelshell 'npm run watch:js' 'npm run watch:css'",
+    "serve": "parallelshell 'npm run watch' 'npm start' ",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Jon Lucas",
@@ -18,7 +21,9 @@
     "express": "^4.13.4",
     "mongoose": "^4.4.3",
     "react": "^0.14.7",
-    "react-dom": "^0.14.7"
+    "react-dom": "^0.14.7",
+    "react-redux": "^4.4.0",
+    "redux": "^3.3.1"
   },
   "devDependencies": {
     "babel-core": "^6.5.1",
@@ -29,6 +34,9 @@
     "jshint": "^2.9.1",
     "node-sass": "^3.4.2",
     "nodemon": "^1.8.1",
+    "parallelshell": "^2.0.0",
+    "rimraf": "^2.5.1",
+    "watch": "^0.17.1",
     "webpack": "^1.12.13"
   }
 }

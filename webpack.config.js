@@ -1,4 +1,4 @@
-/*jshint strict:implied*/
+/* jshint strict:implied */
 /* globals module */
 module.exports = {
   entry: ['./client/js/client.js'],

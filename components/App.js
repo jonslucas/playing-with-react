@@ -1,9 +1,16 @@
 'use strict';
 import React, { Component } from 'react';
+import ToDoInput from './ToDoInput';
+import ToDoList from './ToDoList';
 
 class App extends Component {
     render() {
-        return <div>React wired up</div>;
+        return (
+            <div>
+                <ToDoInput />
+                <ToDoList />
+            </div>
+        );
     }
 }
 
