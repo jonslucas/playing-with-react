@@ -67,7 +67,7 @@
 
 	var _App2 = _interopRequireDefault(_App);
 
-	var _reducer = __webpack_require__(185);
+	var _reducer = __webpack_require__(186);
 
 	var _reducer2 = _interopRequireDefault(_reducer);
 
@@ -21161,6 +21161,10 @@
 
 	var _ToDoList2 = _interopRequireDefault(_ToDoList);
 
+	var _Filters = __webpack_require__(185);
+
+	var _Filters2 = _interopRequireDefault(_Filters);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -21184,6 +21188,7 @@
 	            return _react2.default.createElement(
 	                'div',
 	                null,
+	                _react2.default.createElement(_Filters2.default, null),
 	                _react2.default.createElement(_ToDoInput2.default, null),
 	                _react2.default.createElement(_ToDoList2.default, null)
 	            );
@@ -21265,8 +21270,16 @@
 	    };
 	};
 
+	var setVizFilter = function setVizFilter(filter) {
+	    return {
+	        type: 'SET_VIS_FILTER',
+	        filter: filter
+	    };
+	};
+
 	exports.addToDo = addToDo;
 	exports.toggleToDo = toggleToDo;
+	exports.setVizFilter = setVizFilter;
 
 /***/ },
 /* 184 */
@@ -21290,10 +21303,23 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+	var getVisibile = function getVisibile(todos, filter) {
+	    switch (filter) {
+	        case 'SHOW_ACTIVE':
+	            return todos.filter(function (elem) {
+	                return !elem.completed;
+	            });
+	        case 'SHOW_COMPLETED':
+	            return todos.filter(function (elem) {
+	                return elem.completed;
+	            });
+	        default:
+	            return todos;
+	    }
+	};
 	var mapStateToProps = function mapStateToProps(state) {
-	    console.log(state);
 	    return {
-	        todos: state.toDoList
+	        todos: getVisibile(state.toDoList, state.visFilter)
 	    };
 	};
 	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
@@ -21343,14 +21369,84 @@
 	    value: true
 	});
 
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactRedux = __webpack_require__(160);
+
+	var _actions = __webpack_require__(183);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var mapStateToProps = function mapStateToProps(state, ownProps) {
+	    return {
+	        active: state.visFilter === ownProps.filter
+	    };
+	};
+	var mapDispatchToProps = function mapDispatchToProps(dispatch, ownProps) {
+	    return {
+	        onClick: function onClick() {
+	            dispatch((0, _actions.setVizFilter)(ownProps.filter));
+	        }
+	    };
+	};
+	var Link = function Link(_ref) {
+	    var active = _ref.active;
+	    var children = _ref.children;
+	    var onClick = _ref.onClick;
+
+	    var classes = 'button-default ';
+	    classes += active ? 'btn-active' : '';
+
+	    return _react2.default.createElement(
+	        'button',
+	        { className: classes, onClick: onClick },
+	        children
+	    );
+	};
+	var FilterLink = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(Link);
+
+	var Filter = function Filter() {
+	    return _react2.default.createElement(
+	        'div',
+	        null,
+	        _react2.default.createElement(
+	            FilterLink,
+	            { filter: 'SHOW_ALL' },
+	            ' All '
+	        ),
+	        _react2.default.createElement(
+	            FilterLink,
+	            { filter: 'SHOW_ACTIVE' },
+	            ' Active '
+	        ),
+	        _react2.default.createElement(
+	            FilterLink,
+	            { filter: 'SHOW_COMPLETED' },
+	            ' Completed '
+	        )
+	    );
+	};
+
+	exports.default = Filter;
+
+/***/ },
+/* 186 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
 	var _redux = __webpack_require__(166);
 
 	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
 	// reducer for todo item
 	var todo = function todo(state, action) {
-	    "use strict";
-
 	    switch (action.type) {
 	        case 'ADD_TODO':
 	            return {
@@ -21370,10 +21466,9 @@
 	};
 	// reducer for todo array
 	var toDoList = function toDoList() {
-	    "use strict";
-
 	    var state = arguments.length <= 0 || arguments[0] === undefined ? [] : arguments[0];
 	    var action = arguments[1];
+
 	    switch (action.type) {
 	        case 'ADD_TODO':
 	            return [].concat(_toConsumableArray(state), [todo(undefined, action)]);
@@ -21390,10 +21485,9 @@
 	};
 	// reducer for visibility filtering
 	var visFilter = function visFilter() {
-	    "use strict";
-
 	    var state = arguments.length <= 0 || arguments[0] === undefined ? 'SHOW_ALL' : arguments[0];
 	    var action = arguments[1];
+
 	    switch (action.type) {
 	        case 'SET_VIS_FILTER':
 	            return action.filter;

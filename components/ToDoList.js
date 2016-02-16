@@ -1,12 +1,22 @@
 'use strict';
-import React, { Component } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { toggleToDo } from '../redux/actions';
 
+const getVisibile = (todos, filter) => {
+    switch (filter) {
+        case 'SHOW_ACTIVE':
+            return todos.filter(elem=>!elem.completed);
+        case 'SHOW_COMPLETED':
+            return todos.filter(elem=>elem.completed);
+        default:
+            return todos;
+    }
+
+};
 const mapStateToProps = (state) => {
-    console.log(state);
   return {
-      todos: state.toDoList
+      todos: getVisibile(state.toDoList, state.visFilter)
   };
 };
 const mapDispatchToProps = (dispatch) => {

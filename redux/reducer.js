@@ -2,7 +2,6 @@ import { combineReducers } from 'redux';
 
 // reducer for todo item
 const todo = (state, action)=>{
-    "use strict";
     switch (action.type) {
         case 'ADD_TODO':
             return {
@@ -22,7 +21,6 @@ const todo = (state, action)=>{
 };
 // reducer for todo array
 const toDoList = (state = [], action)=>{
-    "use strict";
   switch(action.type){
       case 'ADD_TODO':
           return [
@@ -43,7 +41,6 @@ const toDoList = (state = [], action)=>{
 };
 // reducer for visibility filtering
 const visFilter = (state='SHOW_ALL', action)=>{
-    "use strict";
     switch (action.type) {
         case 'SET_VIS_FILTER':
             return action.filter;

@@ -14,5 +14,12 @@ const toggleToDo = (id) => {
     }
 };
 
-export { addToDo, toggleToDo };
+const setVizFilter = (filter) => {
+    return {
+        type: 'SET_VIS_FILTER',
+        filter
+    };
+};
+
+export { addToDo, toggleToDo, setVizFilter };
 
