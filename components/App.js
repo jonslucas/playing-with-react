@@ -1,14 +1,14 @@
 'use strict';
 import React, { Component } from 'react';
 import ToDoInput from './ToDoInput';
-import ToDoList from './ToDoList';
+import VisibleToDoList from './ToDoList';
 
 class App extends Component {
     render() {
         return (
             <div>
                 <ToDoInput />
-                <ToDoList />
+                <VisibleToDoList />
             </div>
         );
     }

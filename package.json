@@ -9,7 +9,7 @@
     "watch:css": "watch 'npm run build:css' client/css/",
     "prebuild:js": "jshint **.js",
     "build:js": "webpack",
-    "watch:js": "watch 'npm run build:js' client/js/ components/",
+    "watch:js": "watch 'npm run build:js' client/js/ components/ redux/",
     "build": "npm run clean && npm run build:js && npm run build:css",
     "watch": "parallelshell 'npm run watch:js' 'npm run watch:css'",
     "serve": "parallelshell 'npm run watch' 'npm start' ",

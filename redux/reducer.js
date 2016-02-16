@@ -1,4 +1,4 @@
-import { combineReducer } from 'redux';
+import { combineReducers } from 'redux';
 
 // reducer for todo item
 const todo = (state, action)=>{
@@ -53,7 +53,9 @@ const visFilter = (state='SHOW_ALL', action)=>{
     }
 };
 
-export default toDoReducer = combineReducer({
+const toDoReducer = combineReducers({
     toDoList,
     visFilter
 });
+
+export default toDoReducer;
