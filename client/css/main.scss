@@ -1,7 +1,67 @@
+$todoColr: rgba(87, 55, 30, 0.4);
+$fontSize: 1.3em;
+@mixin todo-base {
+  border-bottom: solid 3px #d3d3d3;
+  padding: 10px 20px;
+  color: black;
+}
+@mixin btn-base {
+  width: 33.33%;
+  height: 3em;
+  border: none;
+  color: white;
+  font-size: $fontSize;
+}
+body {
+  background-color: beige;
+}
+.app-container{
+  width: 30em;
+  margin: 0 auto;
+  padding: 20px;
+}
 .button-default {
-  background-color: #6699cc;
+  @include btn-base;
+  background-color: #7ABE42;
 }
 .btn-active {
-  color: white;
-  background-color: #0086b3;
+  @include btn-base;
+  background-color: #245906;
+}
+.todo-input {
+  width: 100%;
+  height: 3em;
+  margin-bottom: 1em;
+  input {
+    width: 65%;
+    height: 88%;
+    font-size: $fontSize;
+    &:focus {
+      outline:none;
+    }
+  }
+  button {
+    width: 34%;
+    height: 100%;
+    border: none;
+    background-color: $todoColr;
+    font-size: $fontSize;
+    &:focus {
+      outline:none;
+    }
+  }
+}
+.todo-list{
+  background-color: $todoColr;
+  font-size: $fontSize
+}
+.todo-done {
+  @include todo-base;
+  text-decoration: line-through;
+  font-style: italic;
+  color: rgb(92, 92, 92);
+}
+.todo-active {
+  @include todo-base;
+  text-decoration: none;
 }

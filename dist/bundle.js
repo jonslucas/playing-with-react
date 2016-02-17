@@ -21147,8 +21147,6 @@
 	    value: true
 	});
 
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
 	var _react = __webpack_require__(2);
 
 	var _react2 = _interopRequireDefault(_react);
@@ -21167,36 +21165,15 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-	var App = function (_Component) {
-	    _inherits(App, _Component);
-
-	    function App() {
-	        _classCallCheck(this, App);
-
-	        return _possibleConstructorReturn(this, Object.getPrototypeOf(App).apply(this, arguments));
-	    }
-
-	    _createClass(App, [{
-	        key: 'render',
-	        value: function render() {
-	            return _react2.default.createElement(
-	                'div',
-	                null,
-	                _react2.default.createElement(_Filters2.default, null),
-	                _react2.default.createElement(_ToDoInput2.default, null),
-	                _react2.default.createElement(_ToDoList2.default, null)
-	            );
-	        }
-	    }]);
-
-	    return App;
-	}(_react.Component);
+	var App = function App() {
+	    return _react2.default.createElement(
+	        'div',
+	        { className: 'app-container' },
+	        _react2.default.createElement(_Filters2.default, null),
+	        _react2.default.createElement(_ToDoInput2.default, null),
+	        _react2.default.createElement(_ToDoList2.default, null)
+	    );
+	};
 
 	exports.default = App;
 
@@ -21226,21 +21203,21 @@
 	    var input = undefined;
 	    return _react2.default.createElement(
 	        'div',
-	        null,
+	        { className: 'todo-input' },
 	        _react2.default.createElement('input', { ref: function ref(node) {
 	                input = node;
 	            }, placeholder: 'Add Task Here' }),
 	        _react2.default.createElement(
 	            'button',
 	            { onClick: function onClick() {
-	                    dispatch((0, _actions.addToDo)(input.value));
+	                    if (input.value) dispatch((0, _actions.addToDo)(input.value));
 	                    input.value = '';
 	                } },
 	            'Add Task'
 	        )
 	    );
 	};
-
+	// Wraps element in container with access to redux store
 	ToDoInput = (0, _reactRedux.connect)()(ToDoInput);
 
 	exports.default = ToDoInput;
@@ -21303,6 +21280,7 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+	// simple filter for showing only certain todo items
 	var getVisibile = function getVisibile(todos, filter) {
 	    switch (filter) {
 	        case 'SHOW_ACTIVE':
@@ -21317,6 +21295,7 @@
 	            return todos;
 	    }
 	};
+	// mapXXXToProps for connect func
 	var mapStateToProps = function mapStateToProps(state) {
 	    return {
 	        todos: getVisibile(state.toDoList, state.visFilter)
@@ -21329,24 +21308,24 @@
 	        }
 	    };
 	};
-
+	// Presentaional Component - ToDo item
 	var ToDo = function ToDo(_ref) {
 	    var onClick = _ref.onClick;
 	    var completed = _ref.completed;
 	    var text = _ref.text;
 	    return _react2.default.createElement(
 	        'div',
-	        { onClick: onClick, style: { textDecoration: completed ? 'line-through' : 'none' } },
+	        { onClick: onClick, className: completed ? 'todo-done' : 'todo-active' },
 	        text
 	    );
 	};
-
+	// Presentational Component - ToDo List
 	var ToDoList = function ToDoList(_ref2) {
 	    var todos = _ref2.todos;
 	    var onToDoClick = _ref2.onToDoClick;
 	    return _react2.default.createElement(
 	        'div',
-	        null,
+	        { className: todos.length > 0 ? 'todo-list' : '' },
 	        todos.map(function (todo) {
 	            return _react2.default.createElement(ToDo, _extends({ key: todo.id }, todo, { onClick: function onClick() {
 	                    return onToDoClick(todo.id);
@@ -21354,7 +21333,7 @@
 	        })
 	    );
 	};
-
+	// Container Component - connects to redux store, passes state and functionality to Presentation Layers
 	var VisibleToDoList = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(ToDoList);
 
 	exports.default = VisibleToDoList;
@@ -21379,6 +21358,7 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+	// mapping for Container to Presentation Layer connection
 	var mapStateToProps = function mapStateToProps(state, ownProps) {
 	    return {
 	        active: state.visFilter === ownProps.filter
@@ -21391,6 +21371,7 @@
 	        }
 	    };
 	};
+	// Presentational Component - Filter Item
 	var Link = function Link(_ref) {
 	    var active = _ref.active;
 	    var children = _ref.children;
@@ -21405,8 +21386,9 @@
 	        children
 	    );
 	};
+	// Container Component - connects redux store to presentation layer
 	var FilterLink = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(Link);
-
+	// Presentational Component - Filter List
 	var Filter = function Filter() {
 	    return _react2.default.createElement(
 	        'div',

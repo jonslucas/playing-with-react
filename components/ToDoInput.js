@@ -1,5 +1,5 @@
 'use strict';
-import React, { Component } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { addToDo } from '../redux/actions';
 
@@ -8,10 +8,10 @@ let ToDoInput = (
 ) => {
     let input;
     return (
-          <div>
+          <div className={'todo-input'}>
               <input ref={node=>{input = node;}} placeholder='Add Task Here' />
               <button onClick={()=>{
-              dispatch(addToDo(input.value));
+              if (input.value) dispatch(addToDo(input.value));
               input.value = '';
               }}>
                   Add Task
@@ -20,7 +20,7 @@ let ToDoInput = (
     );
 
 };
-
+// Wraps element in container with access to redux store
 ToDoInput = connect()(ToDoInput);
 
 export default ToDoInput

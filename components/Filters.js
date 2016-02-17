@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { setVizFilter } from '../redux/actions';
 
+// mapping for Container to Presentation Layer connection
 const mapStateToProps = (state, ownProps) => {
     return {
       active: state.visFilter === ownProps.filter
@@ -14,6 +15,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         }
     };
 };
+// Presentational Component - Filter Item
 const Link = ({
     active,
     children,
@@ -28,11 +30,12 @@ const Link = ({
         </button>
     );
 };
+// Container Component - connects redux store to presentation layer
 const FilterLink = connect(
     mapStateToProps,
     mapDispatchToProps
 )(Link);
-
+// Presentational Component - Filter List
 const Filter = () => (
     <div>
         <FilterLink filter='SHOW_ALL'> All </FilterLink>
